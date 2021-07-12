@@ -13,8 +13,8 @@ def build_param(method, **kwargs):
     from decouple import config
     from hashlib import sha1
 
-    api_key = config("KEY")
-    api_secret = config("SECRET")
+    api_key = config("ONLINE_AFSPRAKEN_KEY")
+    api_secret = config("ONLINE_AFSPRAKEN_SECRET")
 
     salt = int(datetime.now().timestamp())
     signature_raw = (

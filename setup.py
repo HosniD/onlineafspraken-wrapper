@@ -10,7 +10,7 @@ with open("README.rst") as readme_file:
 with open("HISTORY.rst") as history_file:
     history = history_file.read()
 
-requirements = ["decouple", "xmltodict", "pydantic", "respx", "httpx"]
+requirements = ["python-decouple", "xmltodict", "pydantic", "respx", "httpx"]
 
 test_requirements = ["pytest>=3"]
 
