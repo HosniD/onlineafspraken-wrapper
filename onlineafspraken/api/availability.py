@@ -13,11 +13,11 @@ def get_bookable_days(
     api = OnlineAfsprakenAPI()
     resp = api.get(
         "getBookableDays",
-        agendaId=agenda_id,
-        appointmentTypeId=appointment_type_id,
-        resourceId=resource_id,
-        startDate=start_date,
-        endDate=end_date,
+        AgendaId=agenda_id,
+        AppointmentTypeId=appointment_type_id,
+        StartDate=start_date,
+        EndDate=end_date,
+        ResourceId=resource_id,
     )
     json_resp = xmltodict.parse(resp.content)
     return GetBookableDaysResponse.parse_obj(json_resp["Response"])
@@ -34,12 +34,12 @@ def get_bookable_times(
     api = OnlineAfsprakenAPI()
     resp = api.get(
         "getBookableTimes",
-        agendaId=agenda_id,
-        appointmentTypeId=appointment_type_id,
-        date=date,
-        resourceId=resource_id,
-        startTime=start_time,
-        endTime=end_time,
+        AgendaId=agenda_id,
+        AppointmentTypeId=appointment_type_id,
+        Date=date,
+        ResourceId=resource_id,
+        StartTime=start_time,
+        EndTime=end_time,
     )
     json_resp = xmltodict.parse(resp.content)
     return GetBookableTimesResponse.parse_obj(json_resp["Response"])

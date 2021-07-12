@@ -1,26 +1,26 @@
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 
 from onlineafspraken.schema.response import BaseResponseContent, OnlineAfsprakenBase
 
 
 class BookableDaySchema(OnlineAfsprakenBase):
-    date: int
+    date: str
     month: int
     day: int
 
 
 class BookableTimeSchema(OnlineAfsprakenBase):
-    date: int
-    start_time: int
-    end_time: int
+    date: str
+    start_time: str
+    end_time: str
     timestamp: int
     appointment_type_id: int
     resource_id: int
 
 
 class GetBookableDaysResponse(BaseResponseContent):
-    objects: Optional[Dict[str, BookableDaySchema]]
+    objects: Optional[Dict[str, List[BookableDaySchema]]]
 
 
 class GetBookableTimesResponse(BaseResponseContent):
-    objects: Optional[Dict[str, BookableTimeSchema]]
+    objects: Optional[Dict[str, List[BookableTimeSchema]]]

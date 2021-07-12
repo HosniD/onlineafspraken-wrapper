@@ -35,7 +35,8 @@ class OnlineAfsprakenAPI(metaclass=OnlineAfsprakenMeta):
         return self.params
 
     def get(self, method, **kwargs):
-        self.set_params(method, **kwargs)
+        filter_kwargs = {k: v for k, v in kwargs.items() if v is not None}
+        self.set_params(method, **filter_kwargs)
         return self.client.get(url="", params=self.params)
 
     def get_base_url(self):

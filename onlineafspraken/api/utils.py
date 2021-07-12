@@ -18,7 +18,10 @@ def build_param(method, **kwargs):
 
     salt = int(datetime.now().timestamp())
     signature_raw = (
-        build_signature(**kwargs) + "method" + method + api_secret + str(salt)
+        # build_signature(method=method, **kwargs) + "method" + method + api_secret + str(salt)
+        build_signature(method=method, **kwargs)
+        + api_secret
+        + str(salt)
     )
     signature_encoded = signature_raw.encode()
     signature = sha1(signature_encoded)

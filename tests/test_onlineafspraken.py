@@ -5,8 +5,9 @@ import pytest
 import respx
 from httpx import Response
 
+from onlineafspraken.api.availability import get_bookable_days, get_bookable_times
 from onlineafspraken.api.client import OnlineAfsprakenAPI
-from onlineafspraken.api.general import get_agendas
+from onlineafspraken.api.general import get_agendas, get_appointment_types, get_agenda
 from onlineafspraken.schema.general import GetAgendasResponse
 
 
@@ -45,3 +46,23 @@ def test_get_agendas_200(mock_get_agendas):
     assert mock_get_agendas["get_agendas"].called
     assert response.status.status == "success"
     assert isinstance(response, GetAgendasResponse)
+
+
+def test_get_agenda():
+    at = get_agenda(32492)
+    pass
+
+
+def test_get_appointment_types():
+    at = get_appointment_types()
+    pass
+
+
+def test_get_bookable_days():
+    bd = get_bookable_days(32492, 346655, "2021-07-12", "2021-12-31")
+    pass
+
+
+def test_get_bookable_times():
+    bd = get_bookable_times(32492, 346655, "2021-07-13")
+    pass

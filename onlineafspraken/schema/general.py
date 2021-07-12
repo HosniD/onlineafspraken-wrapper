@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Type, Any, TypeVar, Mapping
+from typing import Optional, Dict, Type, Any, TypeVar, Mapping, List
 
 from pydantic import ValidationError
 from pydantic.error_wrappers import ErrorWrapper
@@ -24,17 +24,17 @@ class AgendaSchema(OnlineAfsprakenBase):
 class AppointmentTypeSchema(OnlineAfsprakenBase):
     id: int
     name: str
-    description: str
+    description: Optional[str]
     status: int
     price_type: int
     price: float
     duration: int
     min_time_before_appointment: int
-    max_ime_before_appointment: int
+    max_time_before_appointment: int
     buffer: int
     can_be_booked_by_consumer: int
     category: str
-    category_id: int
+    category_id: Optional[int]
 
 
 class ResourceSchema(OnlineAfsprakenBase):
@@ -80,7 +80,7 @@ class GetAgendaResponse(BaseResponseContent):
 
 
 class GetAppointmentTypesResponse(BaseResponseContent):
-    objects: Optional[Dict[str, AppointmentTypeSchema]]
+    objects: Dict[str, List[AppointmentTypeSchema]]
 
 
 class GetAppointmentTypeResponse(BaseResponseContent):

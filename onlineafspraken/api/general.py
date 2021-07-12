@@ -33,7 +33,7 @@ def get_appointment_type(type_id) -> GetAppointmentTypeResponse:
     return GetAppointmentTypeResponse.parse_obj(json_resp["Response"])
 
 
-def get_appointment_types() -> GetAppointmentTypesResponse:
+def get_appointment_types():
     api = OnlineAfsprakenAPI()
     resp = api.get("getAppointmentTypes")
     json_resp = xmltodict.parse(resp.content)
