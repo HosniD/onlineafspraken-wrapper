@@ -5,8 +5,10 @@ import pytest
 import respx
 from httpx import Response
 
+from onlineafspraken.api.appointment import set_appointment
 from onlineafspraken.api.availability import get_bookable_days, get_bookable_times
 from onlineafspraken.api.client import OnlineAfsprakenAPI
+from onlineafspraken.api.customers import set_customer, get_customer, get_customers
 from onlineafspraken.api.general import get_agendas, get_appointment_types, get_agenda
 from onlineafspraken.schema.general import GetAgendasResponse
 
@@ -65,4 +67,24 @@ def test_get_bookable_days():
 
 def test_get_bookable_times():
     bd = get_bookable_times(32492, 346655, "2021-07-13")
+    pass
+
+
+def test_set_customer():
+    c = set_customer("john", "doe", "johbdoe@test.com")
+    pass
+
+
+def test_get_customers():
+    c = get_customers()
+    pass
+
+
+def test_get_customer():
+    c = get_customer(26142790)
+    pass
+
+
+def test_set_appointment():
+    ap = set_appointment(32492, "10:00", "2021-07-15", 26142790, 346655)
     pass

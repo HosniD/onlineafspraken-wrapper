@@ -93,16 +93,16 @@ def set_appointment(
     api = OnlineAfsprakenAPI()
     resp = api.get(
         "setAppointment",
-        id=appointment_id,
-        agendaId=agenda_id,
-        startTime=start_time,
-        date=date,
-        customerId=customer_id,
-        appointmentTypeId=appointment_type_id,
-        endTime=end_time,
-        name=name,
-        description=description,
-        bookingMode=booking_mode,
+        Id=appointment_id,
+        AgendaId=agenda_id,
+        StartTime=start_time,
+        Date=date,
+        CustomerId=customer_id,
+        AppointmentTypeId=appointment_type_id,
+        EndTime=end_time,
+        Name=name,
+        Description=description,
+        BookingMode=booking_mode,
     )
     json_resp = xmltodict.parse(resp.content)
     return SetAppointmentResponse.parse_obj(json_resp["Response"])

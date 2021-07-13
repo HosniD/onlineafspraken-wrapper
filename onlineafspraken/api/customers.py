@@ -28,12 +28,12 @@ def get_customers(
     api = OnlineAfsprakenAPI()
     resp = api.get(
         "getCustomers",
-        limit=limit,
-        offset=offset,
-        updateAfter=update_after,
-        email=email,
-        birthDate=birth_date,
-        accountNumber=account_number,
+        Limit=limit,
+        Offset=offset,
+        UpdateAfter=update_after,
+        Email=email,
+        BirthDate=birth_date,
+        AccountNumber=account_number,
     )
     json_resp = xmltodict.parse(resp.content)
     return GetCustomersResponse.parse_obj(json_resp["Response"])
@@ -91,23 +91,23 @@ def set_customer(
     api = OnlineAfsprakenAPI()
     resp = api.get(
         "setCustomer",
-        firstName=first_name,
-        lastName=last_name,
-        email=email,
-        id=customer_id,
-        accountNumber=account_number,
-        phone=phone,
-        mobilePhone=mobile_phone,
-        insertions=insertions,
-        birthDate=birth_date,
-        gender=gender,
-        street=street,
-        houseNr=house_nr,
-        houseNrAddition=house_nr_addition,
-        zipCode=zip_code,
-        city=city,
-        country=country,
-        status=status,
+        FirstName=first_name,
+        LastName=last_name,
+        Email=email,
+        Id=customer_id,
+        AccountNumber=account_number,
+        Phone=phone,
+        MobilePhone=mobile_phone,
+        Insertions=insertions,
+        BirthDate=birth_date,
+        Gender=gender,
+        Street=street,
+        HouseNr=house_nr,
+        HouseNrAddition=house_nr_addition,
+        ZipCode=zip_code,
+        City=city,
+        Country=country,
+        Status=status,
     )
     json_resp = xmltodict.parse(resp.content)
     return SetCustomerResponse.parse_obj(json_resp["Response"])

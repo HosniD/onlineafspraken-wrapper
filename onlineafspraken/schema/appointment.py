@@ -46,4 +46,4 @@ class GetAppointmentResponse(OnlineAfsprakenBase):
 
 
 class SetAppointmentResponse(OnlineAfsprakenBase):
-    appointment: SetAppointmentSchema
+    objects: Optional[Dict[str, SetAppointmentSchema]]

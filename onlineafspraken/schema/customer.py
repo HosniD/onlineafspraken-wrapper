@@ -1,4 +1,4 @@
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 
 from onlineafspraken.schema.response import OnlineAfsprakenBase, BaseResponseContent
 
@@ -6,20 +6,20 @@ from onlineafspraken.schema.response import OnlineAfsprakenBase, BaseResponseCon
 class CustomerSchema(OnlineAfsprakenBase):
     id: int
     account_number: int
-    first_name: str
-    last_name: str
-    insertions: str
-    birth_date: str
-    gender: str
-    street: str
-    house_nr: int
-    house_nr_addition: str
-    zip_code: str
-    city: str
-    country: str
-    phone: str
-    mobile_phone: str
-    email: str
+    first_name: Optional[str]
+    last_name: Optional[str]
+    insertions: Optional[str]
+    birth_date: Optional[str]
+    gender: Optional[str]
+    street: Optional[str]
+    house_nr: Optional[int]
+    house_nr_addition: Optional[str]
+    zip_code: Optional[str]
+    city: Optional[str]
+    country: Optional[str]
+    phone: Optional[str]
+    mobile_phone: Optional[str]
+    email: Optional[str]
     status: int
     update_time: str
     create_time: str
@@ -43,7 +43,7 @@ class PasswordRecoverySchema(OnlineAfsprakenBase):
 
 
 class SetCustomerResponse(BaseResponseContent):
-    data: SetCustomerSchema
+    objects: Optional[Dict[str, SetCustomerSchema]]
 
 
 class PasswordRecoveryResponse(BaseResponseContent):
@@ -51,11 +51,11 @@ class PasswordRecoveryResponse(BaseResponseContent):
 
 
 class GetCustomerResponse(BaseResponseContent):
-    data: CustomerSchema
+    customer: CustomerSchema
 
 
 class GetCustomersResponse(BaseResponseContent):
-    objects: Optional[Dict[str, CustomerSchema]]
+    objects: Dict[str, List[CustomerSchema]]
 
 
 class GetFieldsResponse(BaseResponseContent):
