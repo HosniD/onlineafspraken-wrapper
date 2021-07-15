@@ -7,13 +7,21 @@ from hashlib import sha1
 from pydantic import BaseModel
 
 
+def clean_signature_value(value: str):
+    """
+    According to the docs spaces are removed
+    """
+    return str(value).replace(" ", "")
+
+
 def build_signature(**kwargs):
     ret = ""
+
     sorted_kwargs_list = sorted(kwargs.items(), key=lambda t: t[0])
-    for key, value in dict(sorted_kwargs_list).items():
-        if value is None:
-            continue
-        ret += str(key) + str(value).replace(" ", "")
+
+    for key, value in sorted_kwargs_list:
+        if value is not None:
+            ret += str(key) + clean_signature_value(value)
     return ret
 
 

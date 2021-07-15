@@ -3,24 +3,25 @@
 """Tests for `onlineafspraken` package."""
 import datetime
 
-import pytest
-import respx
-from httpx import Response
-
 from onlineafspraken.api import appointment, availability, customers, general
-from onlineafspraken.api.client import OnlineAfsprakenAPI
+from onlineafspraken.schema.availability import BookableTimeSchema
 
 
+def test_get_bookable_days(agenda_id, appointment_type_id):
+    response = availability.get_bookable_days(
+        agenda_id=32492,
+        appointment_type_id=346655,
+        start_date="2021-07-12",
+        end_date="2021-12-31",
+    )
+    assert isinstance(response, list)
 
 
-def test_get_bookable_days():
-    bd = availability.get_bookable_days(32492, 346655, "2021-07-12", "2021-12-31")
-    pass
-
-
-def test_get_bookable_times():
-    bd = availability.get_bookable_times(32492, 346655, "2021-07-13")
-    pass
+def test_get_bookable_times(agenda_id):
+    response = availability.get_bookable_times(
+        agenda_id=32492, appointment_type_id=346655, date="2021-07-13"
+    )
+    assert isinstance(response[0], BookableTimeSchema)
 
 
 def test_set_customer():
@@ -44,7 +45,11 @@ def test_appointment():
 
     agendas = general.get_agendas()
 
-    bookable_times = availability.get_bookable_times(agenda_id=agendas[0].id, appointment_type_id=types[0].id, date=datetime.date.today())
+    bookable_times = availability.get_bookable_times(
+        agenda_id=agendas[0].id,
+        appointment_type_id=types[0].id,
+        date=datetime.date.today(),
+    )
 
     first_slot = bookable_times[0]
 

@@ -1,4 +1,4 @@
-from onlineafspraken.api.client import OnlineAfsprakenAPI
+from onlineafspraken.api.client import OnlineAfsprakenAPI, client
 from onlineafspraken.schema.appointment import (
     CancelAppointmentResponse,
     ConfirmAppointmentResponse,
@@ -8,14 +8,12 @@ from onlineafspraken.schema.appointment import (
     SetAppointmentSchema,
 )
 
-api = OnlineAfsprakenAPI()
-
 
 def cancel_appointment(
     appointment_id, mode=None, remarks=None, confirmation=None, dry_run=None
 ) -> CancelAppointmentResponse:
 
-    resp = api.get(
+    resp = client.get(
         "cancelAppointment",
         id=appointment_id,
         mode=mode,
@@ -31,7 +29,7 @@ def confirm_appointment(
     appointment_id, confirmation_code
 ) -> ConfirmAppointmentResponse:
 
-    resp = api.get(
+    resp = client.get(
         "confirmAppointment", id=appointment_id, confirmationCode=confirmation_code
     )
 
@@ -50,7 +48,7 @@ def get_appointments(
     offset=None,
 ) -> GetAppointmentsResponse:
 
-    resp = api.get(
+    resp = client.get(
         "getAppointments",
         agendaId=agenda_id,
         startDate=start_date,
@@ -68,14 +66,14 @@ def get_appointments(
 
 def get_appointment(appointment_id) -> GetAppointmentResponse:
 
-    resp = api.get("getAppointment", id=appointment_id)
+    resp = client.get("getAppointment", id=appointment_id)
 
     return GetAppointmentResponse.parse_obj(resp)
 
 
 def remove_appointment(appointment_id) -> None:
 
-    response = api.get("removeAppointment", id=appointment_id)
+    response = client.get("removeAppointment", id=appointment_id)
 
     return response
 
@@ -93,7 +91,7 @@ def set_appointment(
     booking_mode=None,
 ) -> SetAppointmentSchema:
 
-    resp = api.get(
+    resp = client.get(
         "setAppointment",
         Id=appointment_id,
         AgendaId=agenda_id,

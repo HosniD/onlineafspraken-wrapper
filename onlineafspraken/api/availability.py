@@ -1,6 +1,6 @@
 from typing import List
 
-from onlineafspraken.api.client import OnlineAfsprakenAPI
+from onlineafspraken.api.client import client
 from onlineafspraken.api.utils import parse_schema
 from onlineafspraken.schema.availability import (
     GetBookableTimesResponse,
@@ -9,13 +9,11 @@ from onlineafspraken.schema.availability import (
     GetBookableDaysResponse,
 )
 
-api = OnlineAfsprakenAPI()
-
 
 def get_bookable_days(
     agenda_id, appointment_type_id, start_date, end_date, resource_id=None
 ) -> List[BookableDaySchema]:
-    resp = api.get(
+    resp = client.get(
         "getBookableDays",
         AgendaId=agenda_id,
         AppointmentTypeId=appointment_type_id,
@@ -38,7 +36,7 @@ def get_bookable_times(
     end_time=None,
 ) -> List[BookableTimeSchema]:
 
-    response_data = api.get(
+    response_data = client.get(
         "getBookableTimes",
         AgendaId=agenda_id,
         AppointmentTypeId=appointment_type_id,

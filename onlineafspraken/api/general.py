@@ -1,6 +1,6 @@
 from typing import List
 
-from onlineafspraken.api.client import OnlineAfsprakenAPI
+from onlineafspraken.api.client import OnlineAfsprakenAPI, client
 from onlineafspraken.api.utils import parse_schema
 from onlineafspraken.schema.general import (
     GetAgendaResponse,
@@ -10,22 +10,21 @@ from onlineafspraken.schema.general import (
     GetResourcesResponse,
     RequiresConfirmationResponse,
     AppointmentTypeSchema,
-    AgendaSchema, ResourceSchema,
+    AgendaSchema,
+    ResourceSchema,
 )
-
-api = OnlineAfsprakenAPI()
 
 
 def get_agenda(agenda_id) -> AgendaSchema:
 
-    resp = api.get("getAgenda", id=agenda_id)
+    resp = client.get("getAgenda", id=agenda_id)
 
     return GetAgendaResponse.parse_obj(resp).agenda
 
 
 def get_agendas() -> List[AgendaSchema]:
 
-    resp = api.get("getAgendas")
+    resp = client.get("getAgendas")
 
     return parse_schema(
         resp,
@@ -37,14 +36,14 @@ def get_agendas() -> List[AgendaSchema]:
 
 def get_appointment_type(type_id) -> AppointmentTypeSchema:
 
-    resp = api.get("getAppointmentType", id=type_id)
+    resp = client.get("getAppointmentType", id=type_id)
 
     return AppointmentTypeSchema.parse_obj(resp["Objects"]["AppointmentType"])
 
 
 def get_appointment_types() -> List[AppointmentTypeSchema]:
 
-    resp = api.get("getAppointmentTypes")
+    resp = client.get("getAppointmentTypes")
 
     return parse_schema(
         resp,
@@ -56,14 +55,14 @@ def get_appointment_types() -> List[AppointmentTypeSchema]:
 
 def get_resource(resource_id) -> ResourceSchema:
 
-    resp = api.get("getResource", id=resource_id)
+    resp = client.get("getResource", id=resource_id)
 
     return ResourceSchema.parse_obj(resp["Resource"])
 
 
 def get_resources() -> List[ResourceSchema]:
 
-    resp = api.get("getResources")
+    resp = client.get("getResources")
 
     return parse_schema(
         resp,
@@ -75,6 +74,6 @@ def get_resources() -> List[ResourceSchema]:
 
 def requires_confirmation() -> RequiresConfirmationResponse:
 
-    resp = api.get("requiresConfirmation")
+    resp = client.get("requiresConfirmation")
 
     return RequiresConfirmationResponse.parse_obj(resp)

@@ -8,6 +8,7 @@ import xmltodict
 from ..schema.response import BaseResponse
 
 
+
 class OnlineAfsprakenMeta(type):
     _instances = {}
 
@@ -46,6 +47,10 @@ class OnlineAfsprakenAPI(metaclass=OnlineAfsprakenMeta):
         self.set_params(method, **filter_kwargs)
         response = self.client.get(url="", params=self.params)
 
+        if response.status_code == 200 and config('SAVE_RESPONSE', default=False, cast=bool):
+            from tests.utils import save_response
+            save_response(method, response.content)
+
         if response.status_code == 200:
 
             json_resp = xmltodict.parse(response.content)
@@ -59,3 +64,6 @@ class OnlineAfsprakenAPI(metaclass=OnlineAfsprakenMeta):
 
     def get_base_url(self):
         return self.BASE_URL
+
+
+client = OnlineAfsprakenAPI()

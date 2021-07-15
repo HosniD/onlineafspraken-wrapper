@@ -1,6 +1,4 @@
-import xmltodict
-
-from onlineafspraken.api.client import OnlineAfsprakenAPI
+from onlineafspraken.api.client import OnlineAfsprakenAPI, client
 from onlineafspraken.schema.customer import (
     GetCustomerResponse,
     GetCustomersResponse,
@@ -11,8 +9,8 @@ from onlineafspraken.schema.customer import (
 
 
 def get_customer(customer_id) -> GetCustomerResponse:
-    api = OnlineAfsprakenAPI()
-    resp = api.get("getCustomer", id=customer_id)
+
+    resp = client.get("getCustomer", id=customer_id)
 
     return GetCustomerResponse.parse_obj(resp)
 
@@ -40,8 +38,8 @@ def get_customers(
 
 
 def get_fields(agenda_id, appointment_type_id=None) -> GetFieldsResponse:
-    api = OnlineAfsprakenAPI()
-    resp = api.get(
+
+    resp = client.get(
         "getFields", agendaId=agenda_id, appointmentTypeId=appointment_type_id
     )
 
@@ -49,8 +47,8 @@ def get_fields(agenda_id, appointment_type_id=None) -> GetFieldsResponse:
 
 
 def login_customer(username, password) -> GetCustomerResponse:
-    api = OnlineAfsprakenAPI()
-    resp = api.get("loginCustomer", username=username, password=password)
+
+    resp = client.get("loginCustomer", username=username, password=password)
 
     return GetCustomerResponse.parse_obj(resp)
 
