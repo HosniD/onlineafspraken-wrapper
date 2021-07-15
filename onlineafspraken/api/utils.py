@@ -4,7 +4,7 @@ def build_signature(**kwargs):
     for key, value in dict(sorted_kwargs_list).items():
         if value is None:
             continue
-        ret += str(key) + str(value)
+        ret += str(key) + str(value).replace(" ", "")
     return ret
 
 
