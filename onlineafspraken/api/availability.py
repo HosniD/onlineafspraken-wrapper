@@ -1,19 +1,20 @@
 from typing import List
 
-from pydantic import ValidationError
-
 from onlineafspraken.api.client import OnlineAfsprakenAPI
+from onlineafspraken.api.utils import parse_schema
 from onlineafspraken.schema.availability import (
-    GetBookableDaysResponse,
     GetBookableTimesResponse,
     BookableTimeSchema,
+    BookableDaySchema,
+    GetBookableDaysResponse,
 )
+
+api = OnlineAfsprakenAPI()
 
 
 def get_bookable_days(
     agenda_id, appointment_type_id, start_date, end_date, resource_id=None
-) -> GetBookableDaysResponse:
-    api = OnlineAfsprakenAPI()
+) -> List[BookableDaySchema]:
     resp = api.get(
         "getBookableDays",
         AgendaId=agenda_id,
@@ -23,7 +24,9 @@ def get_bookable_days(
         ResourceId=resource_id,
     )
 
-    return GetBookableDaysResponse.parse_obj(resp["Response"])
+    return parse_schema(
+        resp, parse_key="BookableDay", schema=GetBookableDaysResponse, enforce_list=True
+    )
 
 
 def get_bookable_times(
@@ -34,8 +37,8 @@ def get_bookable_times(
     start_time=None,
     end_time=None,
 ) -> List[BookableTimeSchema]:
-    api = OnlineAfsprakenAPI()
-    resp = api.get(
+
+    response_data = api.get(
         "getBookableTimes",
         AgendaId=agenda_id,
         AppointmentTypeId=appointment_type_id,
@@ -45,15 +48,9 @@ def get_bookable_times(
         EndTime=end_time,
     )
 
-    try:
-        response_object = GetBookableTimesResponse.parse_obj(resp["Response"])
-    except ValidationError:
-
-        # correcting the list
-        resp["Response"]["Objects"]["BookableTime"] = [resp["Response"]["Objects"]["BookableTime"]]
-
-        response_object = GetBookableTimesResponse.parse_obj(resp["Response"])
-
-    if response_object.objects:
-        return response_object.objects["BookableTime"]
-    return []
+    return parse_schema(
+        response_data,
+        parse_key="BookableTime",
+        enforce_list=True,
+        schema=GetBookableTimesResponse,
+    )

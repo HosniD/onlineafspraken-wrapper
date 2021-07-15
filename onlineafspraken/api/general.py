@@ -1,61 +1,80 @@
-import xmltodict
+from typing import List
 
 from onlineafspraken.api.client import OnlineAfsprakenAPI
+from onlineafspraken.api.utils import parse_schema
 from onlineafspraken.schema.general import (
     GetAgendaResponse,
     GetAgendasResponse,
-    GetAppointmentTypeResponse,
     GetAppointmentTypesResponse,
     GetResourceResponse,
     GetResourcesResponse,
     RequiresConfirmationResponse,
+    AppointmentTypeSchema,
+    AgendaSchema, ResourceSchema,
 )
 
+api = OnlineAfsprakenAPI()
 
-def get_agenda(agenda_id) -> GetAgendaResponse:
-    api = OnlineAfsprakenAPI()
+
+def get_agenda(agenda_id) -> AgendaSchema:
+
     resp = api.get("getAgenda", id=agenda_id)
 
-    return GetAgendaResponse.parse_obj(resp["Response"])
+    return GetAgendaResponse.parse_obj(resp).agenda
 
 
-def get_agendas() -> GetAgendasResponse:
-    api = OnlineAfsprakenAPI()
+def get_agendas() -> List[AgendaSchema]:
+
     resp = api.get("getAgendas")
 
-    return GetAgendasResponse.parse_obj(resp["Response"])
+    return parse_schema(
+        resp,
+        parse_key="Agenda",
+        schema=GetAgendasResponse,
+        enforce_list=True,
+    )
 
 
-def get_appointment_type(type_id) -> GetAppointmentTypeResponse:
-    api = OnlineAfsprakenAPI()
+def get_appointment_type(type_id) -> AppointmentTypeSchema:
+
     resp = api.get("getAppointmentType", id=type_id)
 
-    return GetAppointmentTypeResponse.parse_obj(resp["Response"])
+    return AppointmentTypeSchema.parse_obj(resp["Objects"]["AppointmentType"])
 
 
-def get_appointment_types():
-    api = OnlineAfsprakenAPI()
+def get_appointment_types() -> List[AppointmentTypeSchema]:
+
     resp = api.get("getAppointmentTypes")
 
-    return GetAppointmentTypesResponse.parse_obj(resp["Response"])
+    return parse_schema(
+        resp,
+        parse_key="AppointmentType",
+        schema=GetAppointmentTypesResponse,
+        enforce_list=True,
+    )
 
 
-def get_resource(resource_id) -> GetResourceResponse:
-    api = OnlineAfsprakenAPI()
+def get_resource(resource_id) -> ResourceSchema:
+
     resp = api.get("getResource", id=resource_id)
 
-    return GetResourceResponse.parse_obj(resp["Response"])
+    return ResourceSchema.parse_obj(resp["Resource"])
 
 
-def get_resources() -> GetResourcesResponse:
-    api = OnlineAfsprakenAPI()
-    resp = api.get("getAppointmentType")
+def get_resources() -> List[ResourceSchema]:
 
-    return GetResourcesResponse.parse_obj(resp["Response"])
+    resp = api.get("getResources")
+
+    return parse_schema(
+        resp,
+        parse_key="Resource",
+        schema=GetResourcesResponse,
+        enforce_list=True,
+    )
 
 
 def requires_confirmation() -> RequiresConfirmationResponse:
-    api = OnlineAfsprakenAPI()
+
     resp = api.get("requiresConfirmation")
 
-    return RequiresConfirmationResponse.parse_obj(resp["Response"])
+    return RequiresConfirmationResponse.parse_obj(resp)

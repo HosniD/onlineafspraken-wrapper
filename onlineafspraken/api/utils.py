@@ -1,3 +1,12 @@
+from datetime import datetime
+from typing import Type
+
+from decouple import config
+from hashlib import sha1
+
+from pydantic import BaseModel
+
+
 def build_signature(**kwargs):
     ret = ""
     sorted_kwargs_list = sorted(kwargs.items(), key=lambda t: t[0])
@@ -9,9 +18,6 @@ def build_signature(**kwargs):
 
 
 def build_param(method, **kwargs):
-    from datetime import datetime
-    from decouple import config
-    from hashlib import sha1
 
     api_key = config("ONLINE_AFSPRAKEN_KEY")
     api_secret = config("ONLINE_AFSPRAKEN_SECRET")
@@ -33,3 +39,19 @@ def build_param(method, **kwargs):
         "method": method,
     }
     return dict(params, **kwargs)
+
+
+def parse_schema(
+    response_data, parse_key: str, schema: Type[BaseModel], enforce_list=False
+):
+    if "Objects" not in response_data:
+        return []
+
+    if enforce_list and not isinstance(response_data["Objects"][parse_key], list):
+        response_data["Objects"][parse_key] = [response_data["Objects"][parse_key]]
+
+    response_object = schema.parse_obj(response_data)
+
+    if response_object:
+        return response_object.objects[parse_key]
+    return []

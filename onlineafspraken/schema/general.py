@@ -40,12 +40,12 @@ class AppointmentTypeSchema(OnlineAfsprakenBase):
 class ResourceSchema(OnlineAfsprakenBase):
     id: int
     name: str
-    code: str
-    phone: str
-    mobile_phone: str
-    email: str
-    status: int
-    label: int
+    code: Optional[str]
+    phone: Optional[str]
+    mobile_phone: Optional[str]
+    email: Optional[str]
+    status: Optional[str]
+    label: Optional[str]
 
 
 class RequiresConfirmationSchema(OnlineAfsprakenBase):
@@ -72,7 +72,7 @@ class ListResponse(OnlineAfsprakenBase):
 
 
 class GetAgendasResponse(BaseResponseContent):
-    objects: Optional[Dict[str, AgendaSchema]]
+    objects: Optional[Dict[str, List[AgendaSchema]]]
 
 
 class GetAgendaResponse(BaseResponseContent):
@@ -88,7 +88,7 @@ class GetAppointmentTypeResponse(BaseResponseContent):
 
 
 class GetResourcesResponse(BaseResponseContent):
-    objects: Optional[Dict[str, ResourceSchema]]
+    objects: Optional[Dict[str, List[ResourceSchema]]]
 
 
 class GetResourceResponse(BaseResponseContent):

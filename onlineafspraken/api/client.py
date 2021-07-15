@@ -1,8 +1,11 @@
 import httpx
 import respx
+from decouple import config
 
 from . import utils
 import xmltodict
+
+from ..schema.response import BaseResponse
 
 
 class OnlineAfsprakenMeta(type):
@@ -15,9 +18,13 @@ class OnlineAfsprakenMeta(type):
         return cls._instances[cls]
 
 
+class OnlineAfsprakenError(Exception):
+    pass
+
+
 class OnlineAfsprakenAPI(metaclass=OnlineAfsprakenMeta):
 
-    BASE_URL = "https://agenda.onlineafspraken.nl/APIREST"
+    BASE_URL = config("ONLINE_AFSRPAKEN_API_URL")
     params = {}
 
     def __init__(self):
@@ -39,11 +46,16 @@ class OnlineAfsprakenAPI(metaclass=OnlineAfsprakenMeta):
         self.set_params(method, **filter_kwargs)
         response = self.client.get(url="", params=self.params)
 
-        json_resp = xmltodict.parse(response.content)
+        if response.status_code == 200:
 
-        if json_resp['Response']['Status']['Status'] == 'failed':
-            raise Exception(json_resp['Response']['Status']['Message'])
-        return json_resp
+            json_resp = xmltodict.parse(response.content)
+
+            base_response = BaseResponse.parse_obj(json_resp)
+
+            if base_response.response.status.status == "failed":
+                raise OnlineAfsprakenError(base_response.response.status.message)
+
+            return json_resp["Response"]
 
     def get_base_url(self):
         return self.BASE_URL

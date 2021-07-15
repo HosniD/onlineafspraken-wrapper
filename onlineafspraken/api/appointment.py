@@ -4,14 +4,17 @@ from onlineafspraken.schema.appointment import (
     ConfirmAppointmentResponse,
     GetAppointmentsResponse,
     GetAppointmentResponse,
-    SetAppointmentResponse, SetAppointmentSchema,
+    SetAppointmentResponse,
+    SetAppointmentSchema,
 )
+
+api = OnlineAfsprakenAPI()
 
 
 def cancel_appointment(
     appointment_id, mode=None, remarks=None, confirmation=None, dry_run=None
 ) -> CancelAppointmentResponse:
-    api = OnlineAfsprakenAPI()
+
     resp = api.get(
         "cancelAppointment",
         id=appointment_id,
@@ -21,18 +24,18 @@ def cancel_appointment(
         dryRun=dry_run,
     )
 
-    return CancelAppointmentResponse.parse_obj(resp["Response"])
+    return CancelAppointmentResponse.parse_obj(resp)
 
 
 def confirm_appointment(
     appointment_id, confirmation_code
 ) -> ConfirmAppointmentResponse:
-    api = OnlineAfsprakenAPI()
+
     resp = api.get(
         "confirmAppointment", id=appointment_id, confirmationCode=confirmation_code
     )
 
-    return ConfirmAppointmentResponse.parse_obj(resp["Response"])
+    return ConfirmAppointmentResponse.parse_obj(resp)
 
 
 def get_appointments(
@@ -46,7 +49,7 @@ def get_appointments(
     limit=None,
     offset=None,
 ) -> GetAppointmentsResponse:
-    api = OnlineAfsprakenAPI()
+
     resp = api.get(
         "getAppointments",
         agendaId=agenda_id,
@@ -60,19 +63,20 @@ def get_appointments(
         offset=offset,
     )
 
-    return GetAppointmentsResponse.parse_obj(resp["Response"])
+    return GetAppointmentsResponse.parse_obj(resp)
 
 
 def get_appointment(appointment_id) -> GetAppointmentResponse:
-    api = OnlineAfsprakenAPI()
+
     resp = api.get("getAppointment", id=appointment_id)
 
-    return GetAppointmentResponse.parse_obj(resp["Response"])
+    return GetAppointmentResponse.parse_obj(resp)
 
 
 def remove_appointment(appointment_id) -> None:
-    api = OnlineAfsprakenAPI()
+
     response = api.get("removeAppointment", id=appointment_id)
+
     return response
 
 
@@ -88,7 +92,7 @@ def set_appointment(
     description=None,
     booking_mode=None,
 ) -> SetAppointmentSchema:
-    api = OnlineAfsprakenAPI()
+
     resp = api.get(
         "setAppointment",
         Id=appointment_id,
@@ -103,6 +107,6 @@ def set_appointment(
         BookingMode=booking_mode,
     )
 
-    response = SetAppointmentResponse.parse_obj(resp["Response"])
+    response = SetAppointmentResponse.parse_obj(resp)
 
     return response.objects["Appointment"]

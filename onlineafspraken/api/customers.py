@@ -14,7 +14,7 @@ def get_customer(customer_id) -> GetCustomerResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("getCustomer", id=customer_id)
 
-    return GetCustomerResponse.parse_obj(resp["Response"])
+    return GetCustomerResponse.parse_obj(resp)
 
 
 def get_customers(
@@ -36,7 +36,7 @@ def get_customers(
         AccountNumber=account_number,
     )
 
-    return GetCustomersResponse.parse_obj(resp["Response"])
+    return GetCustomersResponse.parse_obj(resp)
 
 
 def get_fields(agenda_id, appointment_type_id=None) -> GetFieldsResponse:
@@ -45,28 +45,28 @@ def get_fields(agenda_id, appointment_type_id=None) -> GetFieldsResponse:
         "getFields", agendaId=agenda_id, appointmentTypeId=appointment_type_id
     )
 
-    return GetFieldsResponse.parse_obj(resp["Response"])
+    return GetFieldsResponse.parse_obj(resp)
 
 
 def login_customer(username, password) -> GetCustomerResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("loginCustomer", username=username, password=password)
 
-    return GetCustomerResponse.parse_obj(resp["Response"])
+    return GetCustomerResponse.parse_obj(resp)
 
 
 def login_customer_with_facebook(facebook_id) -> GetCustomerResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("loginCustomerWithFacebook", facebookId=facebook_id)
 
-    return GetCustomerResponse.parse_obj(resp["Response"])
+    return GetCustomerResponse.parse_obj(resp)
 
 
 def password_recovery(email) -> PasswordRecoveryResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("passwordRecovery", email=email)
 
-    return PasswordRecoveryResponse.parse_obj(resp["Response"])
+    return PasswordRecoveryResponse.parse_obj(resp)
 
 
 def set_customer(
@@ -110,4 +110,4 @@ def set_customer(
         Status=status,
     )
 
-    return SetCustomerResponse.parse_obj(resp["Response"])
+    return SetCustomerResponse.parse_obj(resp)
