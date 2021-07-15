@@ -1,12 +1,10 @@
-import xmltodict
-
 from onlineafspraken.api.client import OnlineAfsprakenAPI
 from onlineafspraken.schema.appointment import (
     CancelAppointmentResponse,
     ConfirmAppointmentResponse,
     GetAppointmentsResponse,
     GetAppointmentResponse,
-    SetAppointmentResponse,
+    SetAppointmentResponse, SetAppointmentSchema,
 )
 
 
@@ -22,8 +20,8 @@ def cancel_appointment(
         confirmation=confirmation,
         dryRun=dry_run,
     )
-    json_resp = xmltodict.parse(resp.content)
-    return CancelAppointmentResponse.parse_obj(json_resp["Response"])
+
+    return CancelAppointmentResponse.parse_obj(resp["Response"])
 
 
 def confirm_appointment(
@@ -33,8 +31,8 @@ def confirm_appointment(
     resp = api.get(
         "confirmAppointment", id=appointment_id, confirmationCode=confirmation_code
     )
-    json_resp = xmltodict.parse(resp.content)
-    return ConfirmAppointmentResponse.parse_obj(json_resp["Response"])
+
+    return ConfirmAppointmentResponse.parse_obj(resp["Response"])
 
 
 def get_appointments(
@@ -61,21 +59,21 @@ def get_appointments(
         limit=limit,
         offset=offset,
     )
-    json_resp = xmltodict.parse(resp.content)
-    return GetAppointmentsResponse.parse_obj(json_resp["Response"])
+
+    return GetAppointmentsResponse.parse_obj(resp["Response"])
 
 
 def get_appointment(appointment_id) -> GetAppointmentResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("getAppointment", id=appointment_id)
-    json_resp = xmltodict.parse(resp.content)
-    return GetAppointmentResponse.parse_obj(json_resp["Response"])
+
+    return GetAppointmentResponse.parse_obj(resp["Response"])
 
 
 def remove_appointment(appointment_id) -> None:
     api = OnlineAfsprakenAPI()
-    api.get("removeAppointment", id=appointment_id)
-    return None
+    response = api.get("removeAppointment", id=appointment_id)
+    return response
 
 
 def set_appointment(

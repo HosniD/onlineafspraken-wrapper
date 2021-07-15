@@ -1,9 +1,12 @@
-import xmltodict
+from typing import List
+
+from pydantic import ValidationError
 
 from onlineafspraken.api.client import OnlineAfsprakenAPI
 from onlineafspraken.schema.availability import (
     GetBookableDaysResponse,
     GetBookableTimesResponse,
+    BookableTimeSchema,
 )
 
 
@@ -19,8 +22,8 @@ def get_bookable_days(
         EndDate=end_date,
         ResourceId=resource_id,
     )
-    json_resp = xmltodict.parse(resp.content)
-    return GetBookableDaysResponse.parse_obj(json_resp["Response"])
+
+    return GetBookableDaysResponse.parse_obj(resp["Response"])
 
 
 def get_bookable_times(

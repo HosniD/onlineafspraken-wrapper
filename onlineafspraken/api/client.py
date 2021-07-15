@@ -37,7 +37,13 @@ class OnlineAfsprakenAPI(metaclass=OnlineAfsprakenMeta):
     def get(self, method, **kwargs):
         filter_kwargs = {k: v for k, v in kwargs.items() if v is not None}
         self.set_params(method, **filter_kwargs)
-        return self.client.get(url="", params=self.params)
+        response = self.client.get(url="", params=self.params)
+
+        json_resp = xmltodict.parse(response.content)
+
+        if json_resp['Response']['Status']['Status'] == 'failed':
+            raise Exception(json_resp['Response']['Status']['Message'])
+        return json_resp
 
     def get_base_url(self):
         return self.BASE_URL

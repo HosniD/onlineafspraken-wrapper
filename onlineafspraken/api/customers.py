@@ -13,8 +13,8 @@ from onlineafspraken.schema.customer import (
 def get_customer(customer_id) -> GetCustomerResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("getCustomer", id=customer_id)
-    json_resp = xmltodict.parse(resp.content)
-    return GetCustomerResponse.parse_obj(json_resp["Response"])
+
+    return GetCustomerResponse.parse_obj(resp["Response"])
 
 
 def get_customers(
@@ -35,8 +35,8 @@ def get_customers(
         BirthDate=birth_date,
         AccountNumber=account_number,
     )
-    json_resp = xmltodict.parse(resp.content)
-    return GetCustomersResponse.parse_obj(json_resp["Response"])
+
+    return GetCustomersResponse.parse_obj(resp["Response"])
 
 
 def get_fields(agenda_id, appointment_type_id=None) -> GetFieldsResponse:
@@ -44,29 +44,29 @@ def get_fields(agenda_id, appointment_type_id=None) -> GetFieldsResponse:
     resp = api.get(
         "getFields", agendaId=agenda_id, appointmentTypeId=appointment_type_id
     )
-    json_resp = xmltodict.parse(resp.content)
-    return GetFieldsResponse.parse_obj(json_resp["Response"])
+
+    return GetFieldsResponse.parse_obj(resp["Response"])
 
 
 def login_customer(username, password) -> GetCustomerResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("loginCustomer", username=username, password=password)
-    json_resp = xmltodict.parse(resp.content)
-    return GetCustomerResponse.parse_obj(json_resp["Response"])
+
+    return GetCustomerResponse.parse_obj(resp["Response"])
 
 
 def login_customer_with_facebook(facebook_id) -> GetCustomerResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("loginCustomerWithFacebook", facebookId=facebook_id)
-    json_resp = xmltodict.parse(resp.content)
-    return GetCustomerResponse.parse_obj(json_resp["Response"])
+
+    return GetCustomerResponse.parse_obj(resp["Response"])
 
 
 def password_recovery(email) -> PasswordRecoveryResponse:
     api = OnlineAfsprakenAPI()
     resp = api.get("passwordRecovery", email=email)
-    json_resp = xmltodict.parse(resp.content)
-    return PasswordRecoveryResponse.parse_obj(json_resp["Response"])
+
+    return PasswordRecoveryResponse.parse_obj(resp["Response"])
 
 
 def set_customer(
@@ -109,5 +109,5 @@ def set_customer(
         Country=country,
         Status=status,
     )
-    json_resp = xmltodict.parse(resp.content)
-    return SetCustomerResponse.parse_obj(json_resp["Response"])
+
+    return SetCustomerResponse.parse_obj(resp["Response"])
