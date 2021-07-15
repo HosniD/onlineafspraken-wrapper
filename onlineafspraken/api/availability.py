@@ -33,7 +33,7 @@ def get_bookable_times(
     resource_id=None,
     start_time=None,
     end_time=None,
-) -> GetBookableTimesResponse:
+) -> List[BookableTimeSchema]:
     api = OnlineAfsprakenAPI()
     resp = api.get(
         "getBookableTimes",
@@ -44,5 +44,16 @@ def get_bookable_times(
         StartTime=start_time,
         EndTime=end_time,
     )
-    json_resp = xmltodict.parse(resp.content)
-    return GetBookableTimesResponse.parse_obj(json_resp["Response"])
+
+    try:
+        response_object = GetBookableTimesResponse.parse_obj(resp["Response"])
+    except ValidationError:
+
+        # correcting the list
+        resp["Response"]["Objects"]["BookableTime"] = [resp["Response"]["Objects"]["BookableTime"]]
+
+        response_object = GetBookableTimesResponse.parse_obj(resp["Response"])
+
+    if response_object.objects:
+        return response_object.objects["BookableTime"]
+    return []
