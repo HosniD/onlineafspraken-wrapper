@@ -7,7 +7,7 @@ import pytest
 import respx
 from httpx import Response
 
-from onlineafspraken.api.appointment import set_appointment, remove_appointment
+from onlineafspraken.api.appointment import set_appointment, remove_appointment, get_appointment
 from onlineafspraken.api.availability import get_bookable_days, get_bookable_times
 from onlineafspraken.api.client import OnlineAfsprakenAPI
 from onlineafspraken.api.customers import set_customer, get_customer, get_customers
@@ -87,11 +87,6 @@ def test_get_customer():
     pass
 
 
-def test_set_appointment():
-    ap = set_appointment(32492, "10:00", "2021-07-15", 26142790, 346655)
-    pass
-
-
 def test_get_appointment():
 
     bookable_times = get_bookable_times(32492, 346655, datetime.date.today())
@@ -109,5 +104,7 @@ def test_get_appointment():
     )
 
     assert result.id
+
+    appointment = get_appointment(result.id)
 
     remove_appointment(result.id)

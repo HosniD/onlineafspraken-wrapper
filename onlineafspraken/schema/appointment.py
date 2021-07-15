@@ -15,7 +15,7 @@ class AppointmentSchema(OnlineAfsprakenBase):
     customer_id: int
     customer_name: str
     status: int
-    resources: str
+    resources: dict
     create_time: str
     update_time: str
 
