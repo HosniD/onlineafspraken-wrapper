@@ -87,7 +87,7 @@ def set_appointment(
     name=None,
     description=None,
     booking_mode=None,
-) -> SetAppointmentResponse:
+) -> SetAppointmentSchema:
     api = OnlineAfsprakenAPI()
     resp = api.get(
         "setAppointment",
@@ -102,5 +102,7 @@ def set_appointment(
         Description=description,
         BookingMode=booking_mode,
     )
-    json_resp = xmltodict.parse(resp.content)
-    return SetAppointmentResponse.parse_obj(json_resp["Response"])
+
+    response = SetAppointmentResponse.parse_obj(resp["Response"])
+
+    return response.objects["Appointment"]

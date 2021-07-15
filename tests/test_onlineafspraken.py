@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 """Tests for `onlineafspraken` package."""
+import datetime
+
 import pytest
 import respx
 from httpx import Response
 
-from onlineafspraken.api.appointment import set_appointment
+from onlineafspraken.api.appointment import set_appointment, remove_appointment
 from onlineafspraken.api.availability import get_bookable_days, get_bookable_times
 from onlineafspraken.api.client import OnlineAfsprakenAPI
 from onlineafspraken.api.customers import set_customer, get_customer, get_customers
@@ -88,3 +90,24 @@ def test_get_customer():
 def test_set_appointment():
     ap = set_appointment(32492, "10:00", "2021-07-15", 26142790, 346655)
     pass
+
+
+def test_get_appointment():
+
+    bookable_times = get_bookable_times(32492, 346655, datetime.date.today())
+
+    first_slot = bookable_times[0]
+
+    result = set_appointment(
+        32492,
+        first_slot.start_time,
+        first_slot.date,
+        26142790,
+        346655,
+        description="Test 1234",
+        name="Test Appointment",
+    )
+
+    assert result.id
+
+    remove_appointment(result.id)
