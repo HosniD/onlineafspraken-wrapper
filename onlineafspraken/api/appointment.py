@@ -5,7 +5,7 @@ from onlineafspraken.schema.appointment import (
     GetAppointmentsResponse,
     GetAppointmentResponse,
     SetAppointmentResponse,
-    SetAppointmentSchema,
+    SetAppointmentSchema, AppointmentSchema,
 )
 
 
@@ -64,11 +64,11 @@ def get_appointments(
     return GetAppointmentsResponse.parse_obj(resp)
 
 
-def get_appointment(appointment_id) -> GetAppointmentResponse:
+def get_appointment(appointment_id) -> AppointmentSchema:
 
     resp = client.get("getAppointment", id=appointment_id)
 
-    return GetAppointmentResponse.parse_obj(resp)
+    return GetAppointmentResponse.parse_obj(resp).appointment
 
 
 def remove_appointment(appointment_id) -> None:
