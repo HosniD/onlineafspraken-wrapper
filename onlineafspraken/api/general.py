@@ -1,12 +1,11 @@
 from typing import List
 
-from onlineafspraken.api.client import OnlineAfsprakenAPI, client
+from onlineafspraken.api.client import client
 from onlineafspraken.api.utils import parse_schema
 from onlineafspraken.schema.general import (
     GetAgendaResponse,
     GetAgendasResponse,
     GetAppointmentTypesResponse,
-    GetResourceResponse,
     GetResourcesResponse,
     RequiresConfirmationResponse,
     AppointmentTypeSchema,
