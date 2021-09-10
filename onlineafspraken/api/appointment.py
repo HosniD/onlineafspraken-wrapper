@@ -5,7 +5,8 @@ from onlineafspraken.schema.appointment import (
     GetAppointmentsResponse,
     GetAppointmentResponse,
     SetAppointmentResponse,
-    SetAppointmentSchema, AppointmentSchema,
+    SetAppointmentSchema,
+    AppointmentSchema,
 )
 
 
@@ -89,6 +90,7 @@ def set_appointment(
     name=None,
     description=None,
     booking_mode=None,
+    **custom_fields
 ) -> SetAppointmentSchema:
 
     resp = client.get(
@@ -103,6 +105,7 @@ def set_appointment(
         Name=name,
         Description=description,
         BookingMode=booking_mode,
+        **custom_fields,
     )
 
     response = SetAppointmentResponse.parse_obj(resp)
