@@ -16,7 +16,7 @@ from onlineafspraken.schema.general import (
 
 def get_agenda(agenda_id) -> AgendaSchema:
 
-    resp = client.get("getAgenda", id=agenda_id)
+    resp = client.get("getAgenda", Id=agenda_id)
 
     return GetAgendaResponse.parse_obj(resp).agenda
 
@@ -35,7 +35,7 @@ def get_agendas() -> List[AgendaSchema]:
 
 def get_appointment_type(type_id) -> AppointmentTypeSchema:
 
-    resp = client.get("getAppointmentType", id=type_id)
+    resp = client.get("getAppointmentType", Id=type_id)
 
     return AppointmentTypeSchema.parse_obj(resp["Objects"]["AppointmentType"])
 
@@ -54,7 +54,7 @@ def get_appointment_types() -> List[AppointmentTypeSchema]:
 
 def get_resource(resource_id) -> ResourceSchema:
 
-    resp = client.get("getResource", id=resource_id)
+    resp = client.get("getResource", Id=resource_id)
 
     return ResourceSchema.parse_obj(resp["Resource"])
 

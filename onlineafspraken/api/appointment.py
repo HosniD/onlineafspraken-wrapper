@@ -15,11 +15,11 @@ def cancel_appointment(
 
     resp = client.get(
         "cancelAppointment",
-        id=appointment_id,
-        mode=mode,
-        remarks=remarks,
-        confirmation=confirmation,
-        dryRun=dry_run,
+        Id=appointment_id,
+        Mode=mode,
+        Remarks=remarks,
+        Confirmation=confirmation,
+        DryRun=dry_run,
     )
 
     return CancelAppointmentResponse.parse_obj(resp)
@@ -30,7 +30,7 @@ def confirm_appointment(
 ) -> ConfirmAppointmentResponse:
 
     resp = client.get(
-        "confirmAppointment", id=appointment_id, confirmationCode=confirmation_code
+        "confirmAppointment", Id=appointment_id, ConfirmationCode=confirmation_code
     )
 
     return ConfirmAppointmentResponse.parse_obj(resp)
@@ -50,15 +50,15 @@ def get_appointments(
 
     resp = client.get(
         "getAppointments",
-        agendaId=agenda_id,
-        startDate=start_date,
-        endDate=end_date,
-        customerId=customer_id,
-        appointmentTypeId=appointment_type_id,
-        resourceId=resource_id,
-        includeCancelled=include_cancelled,
-        limit=limit,
-        offset=offset,
+        AgendaId=agenda_id,
+        StartDate=start_date,
+        EndDate=end_date,
+        CustomerId=customer_id,
+        AppointmentTypeId=appointment_type_id,
+        ResourceId=resource_id,
+        IncludeCancelled=include_cancelled,
+        Limit=limit,
+        Offset=offset,
     )
 
     return GetAppointmentsResponse.parse_obj(resp)
@@ -66,14 +66,14 @@ def get_appointments(
 
 def get_appointment(appointment_id) -> AppointmentSchema:
 
-    resp = client.get("getAppointment", id=appointment_id)
+    resp = client.get("getAppointment", Id=appointment_id)
 
     return GetAppointmentResponse.parse_obj(resp).appointment
 
 
 def remove_appointment(appointment_id) -> None:
 
-    response = client.get("removeAppointment", id=appointment_id)
+    response = client.get("removeAppointment", Id=appointment_id)
 
     return response
 

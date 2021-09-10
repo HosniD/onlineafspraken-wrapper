@@ -10,7 +10,7 @@ from onlineafspraken.schema.customer import (
 
 def get_customer(customer_id) -> GetCustomerResponse:
 
-    resp = client.get("getCustomer", id=customer_id)
+    resp = client.get("getCustomer", Id=customer_id)
 
     return GetCustomerResponse.parse_obj(resp)
 
@@ -40,7 +40,7 @@ def get_customers(
 def get_fields(agenda_id, appointment_type_id=None) -> GetFieldsResponse:
 
     resp = client.get(
-        "getFields", agendaId=agenda_id, appointmentTypeId=appointment_type_id
+        "getFields", AgendaId=agenda_id, AppointmentTypeId=appointment_type_id
     )
 
     return GetFieldsResponse.parse_obj(resp)
@@ -48,21 +48,21 @@ def get_fields(agenda_id, appointment_type_id=None) -> GetFieldsResponse:
 
 def login_customer(username, password) -> GetCustomerResponse:
 
-    resp = client.get("loginCustomer", username=username, password=password)
+    resp = client.get("loginCustomer", Username=username, Password=password)
 
     return GetCustomerResponse.parse_obj(resp)
 
 
 def login_customer_with_facebook(facebook_id) -> GetCustomerResponse:
     api = OnlineAfsprakenAPI()
-    resp = api.get("loginCustomerWithFacebook", facebookId=facebook_id)
+    resp = api.get("loginCustomerWithFacebook", FacebookId=facebook_id)
 
     return GetCustomerResponse.parse_obj(resp)
 
 
 def password_recovery(email) -> PasswordRecoveryResponse:
     api = OnlineAfsprakenAPI()
-    resp = api.get("passwordRecovery", email=email)
+    resp = api.get("passwordRecovery", Email=email)
 
     return PasswordRecoveryResponse.parse_obj(resp)
 
