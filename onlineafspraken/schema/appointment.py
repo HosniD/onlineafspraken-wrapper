@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, Dict, List
 
 from onlineafspraken.schema.response import OnlineAfsprakenBase
@@ -7,17 +8,17 @@ class AppointmentSchema(OnlineAfsprakenBase):
     id: int
     name: str
     description: Optional[str]
-    start_time: str
-    finish_time: str
-    blocked_time: str
+    start_time: datetime
+    finish_time: datetime
+    blocked_time: datetime
     capacity: int
     appointment_type_id: int
     customer_id: int
     customer_name: str
     status: int
     resources: dict
-    create_time: str
-    update_time: str
+    create_time: datetime
+    update_time: datetime
 
 
 class ConfirmAppointmentSchema(OnlineAfsprakenBase):
