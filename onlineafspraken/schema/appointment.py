@@ -12,9 +12,9 @@ class AppointmentSchema(OnlineAfsprakenBase):
     finish_time: datetime
     blocked_time: datetime
     capacity: int
-    appointment_type_id: int
-    customer_id: int
-    customer_name: str
+    appointment_type_id: Optional[int]
+    customer_id: Optional[int]
+    customer_name: Optional[str]
     status: int
     resources: dict
     create_time: datetime
