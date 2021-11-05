@@ -4,22 +4,23 @@
 import datetime
 
 from onlineafspraken.api import appointment, availability, customers, general
+from onlineafspraken.schema.appointment import AppointmentSchema
 from onlineafspraken.schema.availability import BookableTimeSchema
 
 
 def test_get_bookable_days(agenda_id, appointment_type_id):
     response = availability.get_bookable_days(
-        agenda_id=32492,
-        appointment_type_id=346655,
+        agenda_id=agenda_id,
+        appointment_type_id=appointment_type_id,
         start_date="2021-07-12",
         end_date="2021-12-31",
     )
     assert isinstance(response, list)
 
 
-def test_get_bookable_times(agenda_id):
+def test_get_bookable_times(agenda_id, appointment_type_id):
     response = availability.get_bookable_times(
-        agenda_id=32492, appointment_type_id=346655, date="2021-07-13"
+        agenda_id=agenda_id, appointment_type_id=appointment_type_id, date="2021-11-06"
     )
     assert isinstance(response[0], BookableTimeSchema)
 
@@ -45,28 +46,37 @@ def test_appointment():
 
     agendas = general.get_agendas()
 
+    agenda = agendas[0]
+    appointment_type = types[0]
+
     bookable_times = availability.get_bookable_times(
-        agenda_id=agendas[0].id,
-        appointment_type_id=types[0].id,
+        agenda_id=agenda.id,
+        appointment_type_id=appointment_type.id,
         date=datetime.date.today(),
     )
 
     first_slot = bookable_times[0]
 
+    customer = customers.set_customer(first_name="Py", last_name="Test", email="py@jelmert.nl")
+
+    assert customer.id
+
     result = appointment.set_appointment(
-        32492,
-        first_slot.start_time,
-        first_slot.date,
-        26142790,
-        346655,
+        agenda_id=agenda.id,
+        appointment_type_id=appointment_type.id,
+        date=first_slot.date,
+        start_time=first_slot.start_time,
+        customer_id=customer.id,
         description="Test 1234",
         name="Test Appointment",
     )
 
     assert result.id
 
-    obj = appointment.get_appointment(result.id)
+    obj: AppointmentSchema = appointment.get_appointment(result.id)
 
-    assert obj.appointment.id == result.id
+    assert obj.id == result.id
+
+    appointment.cancel_appointment(result.id, mode='company')
 
     appointment.remove_appointment(result.id)
