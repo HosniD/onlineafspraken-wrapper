@@ -1,4 +1,6 @@
-from onlineafspraken.api.client import OnlineAfsprakenAPI, client
+from typing import List
+
+from onlineafspraken.api.client import client
 from onlineafspraken.schema.appointment import (
     CancelAppointmentResponse,
     ConfirmAppointmentResponse,
@@ -39,15 +41,15 @@ def confirm_appointment(
 
 def get_appointments(
     agenda_id,
-    start_date,
-    end_date,
+    start_date=None,
+    end_date=None,
     customer_id=None,
     appointment_type_id=None,
     resource_id=None,
     include_cancelled=None,
     limit=None,
     offset=None,
-) -> GetAppointmentsResponse:
+) -> List[AppointmentSchema]:
 
     resp = client.get(
         "getAppointments",
@@ -62,7 +64,7 @@ def get_appointments(
         Offset=offset,
     )
 
-    return GetAppointmentsResponse.parse_obj(resp)
+    return GetAppointmentsResponse.parse_obj(resp["Objects"]).appointment
 
 
 def get_appointment(appointment_id) -> AppointmentSchema:

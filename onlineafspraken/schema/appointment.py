@@ -1,4 +1,4 @@
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 
 from onlineafspraken.schema.response import OnlineAfsprakenBase
 
@@ -6,7 +6,7 @@ from onlineafspraken.schema.response import OnlineAfsprakenBase
 class AppointmentSchema(OnlineAfsprakenBase):
     id: int
     name: str
-    description: str
+    description: Optional[str]
     start_time: str
     finish_time: str
     blocked_time: str
@@ -38,7 +38,7 @@ class ConfirmAppointmentResponse(OnlineAfsprakenBase):
 
 
 class GetAppointmentsResponse(OnlineAfsprakenBase):
-    objects: Optional[Dict[str, AppointmentSchema]]
+    appointment: List[AppointmentSchema]
 
 
 class GetAppointmentResponse(OnlineAfsprakenBase):
