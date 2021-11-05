@@ -4,15 +4,15 @@ from onlineafspraken.schema.customer import (
     GetCustomersResponse,
     GetFieldsResponse,
     PasswordRecoveryResponse,
-    SetCustomerResponse,
+    SetCustomerSchema, CustomerSchema,
 )
 
 
-def get_customer(customer_id) -> GetCustomerResponse:
+def get_customer(customer_id) -> CustomerSchema:
 
     resp = client.get("getCustomer", Id=customer_id)
 
-    return GetCustomerResponse.parse_obj(resp)
+    return CustomerSchema.parse_obj(resp["Customer"])
 
 
 def get_customers(
@@ -85,7 +85,7 @@ def set_customer(
     city: str = None,
     country: str = None,
     status: int = None,
-) -> SetCustomerResponse:
+) -> SetCustomerSchema:
     api = OnlineAfsprakenAPI()
     resp = api.get(
         "setCustomer",
@@ -108,4 +108,4 @@ def set_customer(
         Status=status,
     )
 
-    return SetCustomerResponse.parse_obj(resp)
+    return SetCustomerSchema.parse_obj(resp["Objects"]["Customer"])
